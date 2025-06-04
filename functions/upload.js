@@ -15,4 +15,10 @@ export async function onRequest({ request }) {
     },
     body
   })
+  // ✅ 把 imgur 的 response 转成 json，并返回给用户
+const json = await res.json()
+return new Response(JSON.stringify(json), {
+  status: res.status,
+  headers: { 'Content-Type': 'application/json' }
+})
 }
