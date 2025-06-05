@@ -26,10 +26,13 @@ export async function onRequest({ request }) {
 
   const json = await imgurRes.json();
 
-  return new Response(JSON.stringify(json), {
+ // ✅ 请务必添加以下返回结构（Cloudflare Worker 需要依赖它）
+  return new Response(JSON.stringify({
+    link: json?.data?.link || null,
     status: imgurRes.status,
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    success: json?.success
+  }), {
+    headers: { 'Content-Type': 'application/json' },
+    status: imgurRes.status
   });
 }
